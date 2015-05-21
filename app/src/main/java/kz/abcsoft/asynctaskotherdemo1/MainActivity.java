@@ -3,6 +3,7 @@ package kz.abcsoft.asynctaskotherdemo1;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -49,12 +51,15 @@ public class MainActivity extends ActionBarActivity {
             return;
         int result = -1;
         try {
-            result = cattask.get();
-            Toast.makeText(this, "Полученный результат: " + result, Toast.LENGTH_LONG)
-                    .show();
+            result = cattask.get(1, TimeUnit.SECONDS);
+            Toast.makeText(this, "Полученный результат: " + result,
+                    Toast.LENGTH_LONG).show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            Log.e("AsyncTaskDemo", "get timeout, result = " + result);
             e.printStackTrace();
         }
     }
