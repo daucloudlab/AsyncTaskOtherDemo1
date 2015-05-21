@@ -12,6 +12,13 @@
         android:text="Поехали" >
     </Button>
 
+    <Button
+        android:id="@+id/buttonResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onResultClick"
+        android:text="Получить результат" />
+
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="wrap_content"

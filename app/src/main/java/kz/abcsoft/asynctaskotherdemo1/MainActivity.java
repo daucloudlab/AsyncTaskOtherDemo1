@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -40,6 +42,21 @@ public class MainActivity extends ActionBarActivity {
     public void onclick(View v) {
         cattask = new CatTask();
         cattask.execute("cat1.jpg", "cat2.jpg", "cat3.jpg", "cat4.jpg");
+    }
+
+    public void onResultClick(View v) {
+        if (cattask == null)
+            return;
+        int result = -1;
+        try {
+            result = cattask.get();
+            Toast.makeText(this, "Полученный результат: " + result, Toast.LENGTH_LONG)
+                    .show();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
