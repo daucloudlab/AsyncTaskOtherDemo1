@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class CatTask extends AsyncTask {
+    class CatTask extends AsyncTask<Void, Integer, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -62,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         @Override
-        protected Object doInBackground(Object[] objects) {
+        protected Void doInBackground(Void... params) {
 
             try{
                 TimeUnit.SECONDS.sleep(5);
@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 
 
         @Override
-        protected void onPostExecute(Object o) {
+        protected void onPostExecute(Void o) {
             super.onPostExecute(o);
 
             tvInfo.setText("Залез");
