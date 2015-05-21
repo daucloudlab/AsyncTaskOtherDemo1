@@ -39,7 +39,7 @@ public class MainActivity extends ActionBarActivity {
 
     public void onclick(View v) {
         cattask = new CatTask();
-        cattask.execute();
+        cattask.execute("cat1.jpg", "cat2.jpg", "cat3.jpg", "cat4.jpg");
     }
 
     @Override
@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class CatTask extends AsyncTask<Void, Integer, Void> {
+    class CatTask extends AsyncTask<String, Integer, Integer> {
 
         @Override
         protected void onPreExecute() {
@@ -81,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Integer doInBackground(String... urls) {
 
             try {
                 int counter = 0;
@@ -97,16 +97,16 @@ public class MainActivity extends ActionBarActivity {
                     e.printStackTrace();
                 }
 
-                return null;
+                return 2015;
 
         }
 
 
             @Override
-        protected void onPostExecute(Void o) {
-            super.onPostExecute(o);
+        protected void onPostExecute(Integer result) {
+            super.onPostExecute(result);
 
-            tvInfo.setText("Залез");
+                tvInfo.setText("Залез" + " Возвращаем результат: " + result);
                 buttonStart.setVisibility(View.VISIBLE);
                 horizontalprogress.setProgress(0);
 
