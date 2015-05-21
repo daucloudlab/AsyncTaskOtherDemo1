@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -16,6 +18,10 @@ public class MainActivity extends ActionBarActivity {
     CatTask cattask;
     TextView tvInfo;
 
+    ProgressBar progress;
+    Button buttonStart;
+    ProgressBar horizontalprogress;
+
 
 
     @Override
@@ -24,6 +30,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         tvInfo = (TextView) findViewById(R.id.tvInfo);
+
+        progress = (ProgressBar)findViewById(R.id.progress) ;
+        buttonStart = (Button)findViewById(R.id.buttonStart) ;
+        horizontalprogress = (ProgressBar)findViewById(R.id.progress2) ;
+        horizontalprogress.setMax(14);
     }
 
     public void onclick(View v) {
@@ -59,28 +70,52 @@ public class MainActivity extends ActionBarActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             tvInfo.setText("Полез на крышу");
+            buttonStart.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            tvInfo.setText("Этаж " + values[0]);
+            horizontalprogress.setProgress(values[0]);
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
-            try{
-                TimeUnit.SECONDS.sleep(5);
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-            return null;
+            try {
+                int counter = 0;
+
+                for (int i = 0; i < 14; i++) {
+                    getFloor(counter);
+
+                    publishProgress(++counter);
+
+                    TimeUnit.SECONDS.sleep(1);
+                }
+                } catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+
+                return null;
+
         }
 
 
-
-        @Override
+            @Override
         protected void onPostExecute(Void o) {
             super.onPostExecute(o);
 
             tvInfo.setText("Залез");
+                buttonStart.setVisibility(View.VISIBLE);
+                horizontalprogress.setProgress(0);
+
         }
     }
+
+        private void getFloor(int floor) throws InterruptedException {
+            TimeUnit.SECONDS.sleep(1);
+        }
 
 
 }
